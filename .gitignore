@@ -43,3 +43,7 @@ src/main/resources/application.properties
 ### Environment Files ###
 .env
 .env.local
+
+# Firebase secret key
+src/main/resources/empixfit-firebase-adminsdk-fbsvc-fac727b4d9.json
+src/main/resources/*.json
