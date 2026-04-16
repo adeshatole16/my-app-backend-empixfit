@@ -36,9 +36,7 @@ build/
 .metadata/
 .recommenders/
 
-### Secret Files (IMPORTANT!) ###
-src/main/resources/application.properties
-**/src/main/resources/application.properties
+
 
 ### Environment Files ###
 .env
