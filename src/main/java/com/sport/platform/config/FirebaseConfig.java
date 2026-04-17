@@ -4,8 +4,8 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import org.springframework.context.annotation.Configuration;
-
 import jakarta.annotation.PostConstruct;
+import java.io.FileInputStream;
 import java.io.InputStream;
 
 @Configuration
@@ -14,9 +14,19 @@ public class FirebaseConfig {
     @PostConstruct
     public void init() {
         try {
-            InputStream serviceAccount =
-                    getClass().getClassLoader()
-                            .getResourceAsStream("empixfit-firebase-adminsdk-fbsvc-fac727b4d9.json");
+            InputStream serviceAccount;
+
+            // On Render — reads from secret file
+            String firebasePath = System.getenv("FIREBASE_CREDENTIALS_PATH");
+
+            if (firebasePath != null) {
+                // Production (Render)
+                serviceAccount = new FileInputStream(firebasePath);
+            } else {
+                // Local development
+                serviceAccount = getClass().getClassLoader()
+                        .getResourceAsStream("empixfit-firebase-adminsdk-fbsvc-fac727b4d9.json");
+            }
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))
