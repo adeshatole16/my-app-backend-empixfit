@@ -24,8 +24,8 @@ public class EmailService {
                 "Username: " + username + "\n" +
                 "Password: " + password + "\n\n" +
                 "Login here:\n" +
-                "http://localhost:5173/login\n\n" +
-                "Best Regards,\nSports Academy Team"
+                "https://my-app-frontend-empixfit.vercel.app/login\n\n" +
+                "Best Regards,\nEmpixFitTeam"
         );
 
         mailSender.send(message);

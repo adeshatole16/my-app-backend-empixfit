@@ -1,4 +1,6 @@
 package com.sport.platform.controller;
+import java.util.Map;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,10 +29,26 @@ public class PaymentController {
     private String razorpaySecret;
 
     // Create Razorpay Order
+//    @PostMapping("/create-order")
+//    public String createOrder(@RequestParam int amount) {
+//
+//        return paymentService.createOrder(amount);
+//    }
+    
     @PostMapping("/create-order")
-    public String createOrder(@RequestParam int amount) {
-
-        return paymentService.createOrder(amount);
+    public Map<String, Object> createOrder(@RequestParam int amount) {
+        String orderJson = paymentService.createOrder(amount);
+        try {
+            org.json.JSONObject obj = new org.json.JSONObject(orderJson);
+            Map<String, Object> response = new HashMap<>();
+            response.put("id", obj.getString("id"));          // ← order id for Razorpay
+            response.put("amount", obj.getInt("amount"));     // ← amount in paise
+            response.put("currency", obj.getString("currency"));
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     // Verify Payment
